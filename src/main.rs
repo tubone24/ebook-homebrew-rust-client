@@ -2,7 +2,11 @@ extern crate reqwest;
 
 use std::collections::HashMap;
 
-fn main() -> Result<(), Box<std::error::Error>> {
+fn main() {
+    check_status();
+}
+
+fn check_status() -> Result<(), Box<std::error::Error>> {
     println!("============================");
     println!("Welcome to Ebook-homebrew!!");
     println!("============================");
