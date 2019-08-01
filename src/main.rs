@@ -3,7 +3,7 @@ extern crate reqwest;
 use std::collections::HashMap;
 
 fn main() {
-    check_status();
+    check_status().expect("Server is down");
 }
 
 fn check_status() -> Result<(), Box<std::error::Error>> {
