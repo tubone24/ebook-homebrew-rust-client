@@ -1,5 +1,5 @@
 [package]
-name = "ebook-homebrew-rust-client"
+name = "ebook_homebrew_rust_client"
 version = "0.1.0"
 authors = ["tubone24 <tubo.yyyuuu@gmail.com>"]
 description = "Ebook-homebrew Command Line Tools"
