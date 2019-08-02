@@ -11,6 +11,7 @@ build = "build.rs"
 [dependencies]
 reqwest = "0.9.19"
 clap = "2.33.0"
+rustc-serialize = "0.3"
 
 [build-dependencies]
 clap = "2.33.0"

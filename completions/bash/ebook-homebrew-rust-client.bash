@@ -13,8 +13,17 @@ _ebook-homebrew-rust-client() {
                 cmd="ebook-homebrew-rust-client"
                 ;;
             
+            convert)
+                cmd+="__convert"
+                ;;
+            download)
+                cmd+="__download"
+                ;;
             help)
                 cmd+="__help"
+                ;;
+            status)
+                cmd+="__status"
                 ;;
             upload)
                 cmd+="__upload"
@@ -26,7 +35,7 @@ _ebook-homebrew-rust-client() {
 
     case "${cmd}" in
         ebook-homebrew-rust-client)
-            opts=" -v -h  --version --help   upload help"
+            opts=" -v -h  --version --help   status upload convert download help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -41,6 +50,52 @@ _ebook-homebrew-rust-client() {
             return 0
             ;;
         
+        ebook__homebrew__rust__client__convert)
+            opts=" -h -V  --help --version --host --port  <upload_id> <extension> "
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                
+                --host)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --port)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ebook__homebrew__rust__client__download)
+            opts=" -h -V  --help --version --host --port  <upload_id> <filename> "
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                
+                --host)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --port)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         ebook__homebrew__rust__client__help)
             opts=" -h -V  --help --version  "
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
@@ -56,8 +111,31 @@ _ebook-homebrew-rust-client() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
+        ebook__homebrew__rust__client__status)
+            opts=" -h -V  --help --version --host --port  "
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                
+                --host)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --port)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         ebook__homebrew__rust__client__upload)
-            opts=" -h -V  --help --version --host --port  <directory> <extension > "
+            opts=" -h -V  --help --version --host --port  <directory> <extension> "
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
