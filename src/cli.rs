@@ -3,7 +3,7 @@ use clap::{App, Arg, SubCommand, AppSettings};
 pub fn build_cli() -> App<'static, 'static> {
     app_from_crate!()
         .setting(AppSettings::DeriveDisplayOrder)
-        .arg(Arg::from_usage("-v --version [OPT] 'CLI version'"))
+        .arg(Arg::from_usage("-v --version 'CLI version'"))
         .subcommand(SubCommand::with_name("upload")
             .about("upload image files")
             .arg(Arg::from_usage("<directory> 'image files directory'"))

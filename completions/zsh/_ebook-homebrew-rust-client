@@ -1,0 +1,79 @@
+#compdef ebook-homebrew-rust-client
+
+autoload -U is-at-least
+
+_ebook-homebrew-rust-client() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-v[CLI version]' \
+'--version[CLI version]' \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+":: :_ebook-homebrew-rust-client_commands" \
+"*::: :->ebook-homebrew-rust-client" \
+&& ret=0
+    case $state in
+    (ebook-homebrew-rust-client)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:ebook-homebrew-rust-client-command-$line[1]:"
+        case $line[1] in
+            (upload)
+_arguments "${_arguments_options[@]}" \
+'--host=[ebook-homebrew host URL]' \
+'--port=[ebook-homebrew port]' \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+':directory -- image files directory:_files' \
+':extension  -- image files extension:(jpg png gif)' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_ebook-homebrew-rust-client_commands] )) ||
+_ebook-homebrew-rust-client_commands() {
+    local commands; commands=(
+        "upload:upload image files" \
+"help:Prints this message or the help of the given subcommand(s)" \
+    )
+    _describe -t commands 'ebook-homebrew-rust-client commands' commands "$@"
+}
+(( $+functions[_ebook-homebrew-rust-client__help_commands] )) ||
+_ebook-homebrew-rust-client__help_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'ebook-homebrew-rust-client help commands' commands "$@"
+}
+(( $+functions[_ebook-homebrew-rust-client__upload_commands] )) ||
+_ebook-homebrew-rust-client__upload_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'ebook-homebrew-rust-client upload commands' commands "$@"
+}
+
+_ebook-homebrew-rust-client "$@"
