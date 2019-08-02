@@ -2,14 +2,14 @@ extern crate reqwest;
 #[macro_use]
 extern crate clap;
 
-use std::collections::HashMap;
-use std::time::Duration;
 use reqwest::header;
-use std::io;
+use std::collections::HashMap;
 use std::fs::File;
+use std::io;
+use std::time::Duration;
 
-mod cli;
 mod base64;
+mod cli;
 mod utils;
 
 fn main() {
@@ -62,9 +62,12 @@ fn check_status(host: &str, port: &str) -> Result<(), Box<std::error::Error>> {
         .gzip(true)
         .timeout(Duration::from_secs(60))
         .build()?;
-    let resp: HashMap<String, String> = client.get(&url)
+    let resp: HashMap<String, String> = client
+        .get(&url)
         .header(header::ACCEPT, "application/json")
-        .send()?.json().unwrap();
+        .send()?
+        .json()
+        .unwrap();
     if resp["status"] == "ok" {
         println!("Server is running...");
     } else {
@@ -74,7 +77,12 @@ fn check_status(host: &str, port: &str) -> Result<(), Box<std::error::Error>> {
     Ok(())
 }
 
-fn upload_image(host: &str, port: &str, directory: &str, extension: &str) -> Result<(), Box<std::error::Error>> {
+fn upload_image(
+    host: &str,
+    port: &str,
+    directory: &str,
+    extension: &str,
+) -> Result<(), Box<std::error::Error>> {
     println!("============================");
     println!("Upload image file");
     println!("============================");
@@ -87,14 +95,21 @@ fn upload_image(host: &str, port: &str, directory: &str, extension: &str) -> Res
         .timeout(Duration::from_secs(60))
         .build()?;
     let req_body = format!(
-        r#"{{"contentType": "{content_type}","images": {images}}}"#
-        , content_type=content_type, images=images_b64_string);
+        r#"{{"contentType": "{content_type}","images": {images}}}"#,
+        content_type = content_type,
+        images = images_b64_string
+    );
     let resp: HashMap<String, String> = client.post(&url).body(req_body).send()?.json().unwrap();
     println!("{:?}", resp);
     Ok(())
 }
 
-fn convert_pdf(host: &str, port: &str, upload_id: &str, extension: &str) -> Result<(), Box<std::error::Error>> {
+fn convert_pdf(
+    host: &str,
+    port: &str,
+    upload_id: &str,
+    extension: &str,
+) -> Result<(), Box<std::error::Error>> {
     println!("============================");
     println!("Convert PDF");
     println!("============================");
@@ -106,14 +121,21 @@ fn convert_pdf(host: &str, port: &str, upload_id: &str, extension: &str) -> Resu
         .timeout(Duration::from_secs(60))
         .build()?;
     let req_body = format!(
-        r#"{{"contentType": "{content_type}","uploadId": "{upload_id}"}}"#
-        , content_type=content_type, upload_id=upload_id_string);
+        r#"{{"contentType": "{content_type}","uploadId": "{upload_id}"}}"#,
+        content_type = content_type,
+        upload_id = upload_id_string
+    );
     let resp: HashMap<String, String> = client.post(&url).body(req_body).send()?.json().unwrap();
     println!("{:?}", resp);
     Ok(())
 }
 
-fn download_pdf(host: &str, port: &str, upload_id: &str, filename: &str) -> Result<(), Box<std::error::Error>> {
+fn download_pdf(
+    host: &str,
+    port: &str,
+    upload_id: &str,
+    filename: &str,
+) -> Result<(), Box<std::error::Error>> {
     println!("============================");
     println!("Download PDF");
     println!("============================");
@@ -124,8 +146,9 @@ fn download_pdf(host: &str, port: &str, upload_id: &str, filename: &str) -> Resu
         .timeout(Duration::from_secs(60))
         .build()?;
     let req_body = format!(
-        r#"{{"uploadId": "{upload_id}"}}"#
-        ,upload_id=upload_id_string);
+        r#"{{"uploadId": "{upload_id}"}}"#,
+        upload_id = upload_id_string
+    );
     let mut resp = client.post(&url).body(req_body).send()?;
     let mut out = File::create(filename.to_string()).expect("failed to create file");
     io::copy(&mut resp, &mut out).expect("failed to copy content");
