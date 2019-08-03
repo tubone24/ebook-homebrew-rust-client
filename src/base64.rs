@@ -37,18 +37,6 @@ fn to_base64(path: &str, content_type: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn ut_create_images_b64_png() {
-        assert_eq!(
-            create_images_b64("tests/assets", "image/png", "png"),
-            vec![
-                to_base64("tests/assets/test_001.png", "image/png"),
-                to_base64("tests/assets/test_003mini.png", "image/png")
-            ]
-        );
-    }
-
     #[test]
     fn ut_create_images_b64_gif() {
         assert_eq!(
