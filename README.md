@@ -2,6 +2,8 @@
 
 > Make pdf file which you use e-books by take in some image files such as jpeg, png and gif.
 
+[![CircleCI](https://circleci.com/gh/tubone24/ebook-homebrew-rust-client.svg?style=svg)](https://circleci.com/gh/tubone24/ebook-homebrew-rust-client)
+
 ## What is this app?
 
 This app is a Demo client CLI Client for using [ebook-homebrew](https://github.com/tubone24/ebook_homebrew).

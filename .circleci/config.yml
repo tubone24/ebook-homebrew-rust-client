@@ -42,6 +42,14 @@ jobs:
       - restore_cache:
           key: 'v1-cargo-lock-{{ checksum "Cargo.lock"}}<<# parameters.release >>-release<</ parameters.release>>'
       - run: 'cargo test <<# parameters.release >>--release --locked<</ parameters.release>>'
+  publish_crate:
+    executor: 'default'
+    steps:
+      - 'checkout'
+      - restore_cache:
+          key: 'v1-cargo-lock-{{ checksum "Cargo.lock"}}-release'
+      - run: 'cargo login ${CRATES_IO_API_TOKEN}'
+      - run: 'cargo package --jobs ${BUILD_JOBS} --locked'
 
 workflows:
   version: 2
@@ -72,3 +80,11 @@ workflows:
           filters:
             branches:
               only: 'master'
+      - publish_crate:
+          requires:
+            - 'test'
+          filters:
+            branches:
+              only: 'master'
+            tags:
+              only: '/^v\d+\.\d+\.\d+/'
