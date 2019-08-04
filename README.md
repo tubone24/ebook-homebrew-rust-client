@@ -86,3 +86,10 @@ This CLI has prepared shell completions include shell type below.
 * PowerShell
 
 Use Those!
+
+## Test
+
+Use cargo test.
+```
+cargo test
+```
