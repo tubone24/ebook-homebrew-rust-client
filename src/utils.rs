@@ -1,11 +1,10 @@
 pub fn change_extension_to_content_type(extension: &str) -> String {
-    let mut content_type = "";
-    if extension == "png" {
-        content_type = "image/png"
-    } else if extension == "jpg" {
-        content_type = "image/jpeg"
-    } else if extension == "gif" {
-        content_type = "image/gif"
+    let content_type;
+    match extension {
+        "png" => content_type = "image/png",
+        "jpg" => content_type = "image/jpeg",
+        "gif" => content_type = "image/gif",
+        _ => content_type = "",
     }
     content_type.to_string()
 }
