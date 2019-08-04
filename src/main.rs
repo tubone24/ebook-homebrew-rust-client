@@ -6,6 +6,7 @@ use reqwest::header;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io;
+use std::io::{stdout, BufWriter, Write};
 use std::time::Duration;
 
 mod base64;
@@ -54,11 +55,13 @@ fn print_version() {
 }
 
 fn check_status(host: &str, port: &str) -> Result<(), Box<std::error::Error>> {
-    println!("============================");
-    println!("Check server status");
-    println!("============================");
-    let url = format!("{}:{}/status", host, port);
-    let client = reqwest::Client::builder()
+    let mystdout = stdout();
+    let mut buf = BufWriter::new(mystdout.lock());
+    writeln!(buf, "============================").expect("Stdout Error");
+    writeln!(buf, "Check server status").expect("Stdout Error");
+    writeln!(buf, "============================").expect("Stdout Error");
+    let url: String = format!("{}:{}/status", host, port);
+    let client: reqwest::Client = reqwest::Client::builder()
         .gzip(true)
         .timeout(Duration::from_secs(60))
         .build()?;
@@ -69,11 +72,11 @@ fn check_status(host: &str, port: &str) -> Result<(), Box<std::error::Error>> {
         .json()
         .unwrap();
     if resp["status"] == "ok" {
-        println!("Server is running...");
+        writeln!(buf, "Server is running...").expect("Stdout Error");
     } else {
-        println!("Status is NG");
+        writeln!(buf, "Status is NG").expect("Stdout Error");
     }
-    println!("API Version: {:#?}", resp["version"]);
+    writeln!(buf, "API Version: {:#?}", resp["version"]).expect("Stdout Error");
     Ok(())
 }
 
@@ -87,8 +90,10 @@ fn upload_image(
     println!("Upload image file");
     println!("============================");
     let content_type = utils::change_extension_to_content_type(extension).to_string();
-    let images_b64 = base64::create_images_b64(directory, &content_type, extension);
-    let images_b64_string = format!("{:?}", images_b64);
+    let images_b64_string = format!(
+        "{:?}",
+        base64::create_images_b64(directory, &content_type, extension)
+    );
     let url = format!("{}:{}/data/upload", host, port);
     let client = reqwest::Client::builder()
         .gzip(true)
