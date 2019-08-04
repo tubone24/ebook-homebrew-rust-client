@@ -4,18 +4,21 @@ use rustc_serialize::base64::{ToBase64, MIME};
 use std::fs;
 use std::fs::File;
 use std::io::Read;
+use std::io::{stdout, BufWriter, Write};
 use std::string::String;
 
 pub fn create_images_b64(directory: &str, content_type: &str, extension: &str) -> Vec<String> {
+    let mystdout = stdout();
+    let mut buf = BufWriter::new(mystdout.lock());
     let mut images_b64: Vec<String> = Vec::new();
     let paths = fs::read_dir(directory).unwrap();
     for path in paths {
         let filename = path.unwrap().path().to_string_lossy().to_string();
         if !filename.ends_with(extension) {
-            println!("SKIP: {}", &filename);
+            writeln!(buf, "SKIP: {}", &filename).expect("Stdout Error");
             continue;
         }
-        println!("ADD: {}", &filename);
+        writeln!(buf, "ADD: {}", &filename).expect("Stdout Error");
         let image_b64 = to_base64(&filename, content_type);
         images_b64.push(image_b64);
     }
