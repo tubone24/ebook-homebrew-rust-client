@@ -1,7 +1,3 @@
-extern crate reqwest;
-#[macro_use]
-extern crate clap;
-
 use reqwest::header;
 use std::collections::HashMap;
 use std::fs::File;

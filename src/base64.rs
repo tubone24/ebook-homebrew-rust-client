@@ -40,6 +40,7 @@ fn to_base64(path: &str, content_type: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use test::Bencher;
     #[test]
     fn ut_create_images_b64_gif() {
         assert_eq!(

@@ -3,7 +3,7 @@ extern crate clap;
 
 use clap::Shell;
 
-include!("cli.rs");
+include!("src/cli.rs");
 
 fn main() {
     let mut app = build_cli();

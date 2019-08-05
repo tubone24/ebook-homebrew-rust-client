@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["tubone24 <tubo.yyyuuu@gmail.com>"]
 description = "Ebook-homebrew Command Line Tools"
 edition = "2018"
-build = "src/build.rs"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
